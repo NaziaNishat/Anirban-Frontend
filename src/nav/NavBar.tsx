@@ -40,7 +40,7 @@ export const Navbar = () => {
                 fontWeight="regular"
                 color={Colors.secondary}
               >
-                Anirban
+                Anirban Defence Academy
               </Heading>
             </Box>
           </Box>
