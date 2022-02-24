@@ -6,7 +6,8 @@ import {
     Heading,
     Input,
     useToast,
-    Container
+    Container,
+    Stack,
 } from "@chakra-ui/react";
 import { useMemo, useState } from "react";
 import { Colors } from "../config/colors";
@@ -26,7 +27,7 @@ export const Courses = () => {
                 flexDir="column"
                 justifyContent="center"
                 alignItems="center"
-                p={5}
+                mt={5}
             >
                 <Heading
                     as="h1"
@@ -34,7 +35,7 @@ export const Courses = () => {
                     fontWeight="regular"
                     color={Colors.primary}
                     size="xl"
-                    mb={5}
+                    my={5}
                 >
                     Our Courses
                 </Heading>
@@ -51,6 +52,7 @@ export const Courses = () => {
                         >
                             Double Room
                         </Heading> */}
+
                         <Box
                             display="flex"
                             flexWrap="wrap"
@@ -58,8 +60,8 @@ export const Courses = () => {
                             justifyContent="center"
                         >
                             <Box
-                            height="350px"
-                            width="350px"
+                            height="300px"
+                            width="300px"
                             m={4}
                             backgroundSize="cover"
                             display="flex"
@@ -67,16 +69,16 @@ export const Courses = () => {
                             justifyContent="end"
                             color="white"
                             _hover={{
-                                width: "400px",
-                                height: "400px"
+                                width: "350px",
+                                height: "350px"
                               }}
                             >
-                                <img src={c_1_off}></img>
+                                <img src={c_2_on}></img>
                             </Box>
 
                             <Box
-                            height="350px"
-                            width="350px"
+                            height="300px"
+                            width="300px"
                             m={4}
                             backgroundSize="cover"
                             display="flex"
@@ -84,11 +86,28 @@ export const Courses = () => {
                             justifyContent="end"
                             color="white"
                             _hover={{
-                                width: "400px",
-                                height: "400px",
+                                width: "350px",
+                                height: "350px",
                               }}
                             >
                                 <img src={c_1_on}></img>
+                            </Box>
+
+                            <Box
+                            height="300px"
+                            width="300px"
+                            m={4}
+                            backgroundSize="cover"
+                            display="flex"
+                            flexDir="column"
+                            justifyContent="end"
+                            color="white"
+                            _hover={{
+                                width: "350px",
+                                height: "350px",
+                              }}
+                            >
+                                <img src={c_3_on}></img>
                             </Box>
                             
 
@@ -104,8 +123,8 @@ export const Courses = () => {
                             justifyContent="center"
                         >
                             <Box
-                            height="350px"
-                            width="350px"
+                            height="300px"
+                            width="300px"
                             m={4}
                             backgroundSize="cover"
                             display="flex"
@@ -113,16 +132,16 @@ export const Courses = () => {
                             justifyContent="end"
                             color="white"
                             _hover={{
-                                width: "400px",
-                                height: "400px",
+                                width: "350px",
+                                height: "350px",
                               }}
                             >
                                 <img src={c_2_off}></img>
                             </Box>
 
                             <Box
-                            height="350px"
-                            width="350px"
+                            height="300px"
+                            width="300px"
                             m={4}
                             backgroundSize="cover"
                             display="flex"
@@ -130,24 +149,16 @@ export const Courses = () => {
                             justifyContent="end"
                             color="white"
                             _hover={{
-                                width: "400px",
-                                height: "400px",
+                                width: "350px",
+                                height: "350px",
                               }}
                             >
-                                <img src={c_2_on}></img>
+                                <img src={c_1_off}></img>
                             </Box>  
 
-                            <Container maxW="container.xl" my={5}>
-                    <Box>
-                        <Box
-                            display="flex"
-                            flexWrap="wrap"
-                            width="100%"
-                            justifyContent="center"
-                        >
                             <Box
-                            height="350px"
-                            width="350px"
+                            height="300px"
+                            width="300px"
                             m={4}
                             backgroundSize="cover"
                             display="flex"
@@ -155,33 +166,15 @@ export const Courses = () => {
                             justifyContent="end"
                             color="white"
                             _hover={{
-                                width: "400px",
-                                height: "400px",
+                                width: "350px",
+                                height: "350px",
                               }}
                             >
                                 <img src={c_3_off}></img>
-                            </Box>
+                            </Box>  
 
-                            <Box
-                            height="350px"
-                            width="350px"
-                            m={4}
-                            backgroundSize="cover"
-                            display="flex"
-                            flexDir="column"
-                            justifyContent="end"
-                            color="white"
-                            _hover={{
-                                width: "400px",
-                                height: "400px",
-                              }}
-                            >
-                                <img src={c_3_on}></img>
-                            </Box>
-                            
+                            <Container maxW="container.xl" my={5}>
 
-                        </Box>
-                    </Box>
                 </Container> 
 
                         </Box>

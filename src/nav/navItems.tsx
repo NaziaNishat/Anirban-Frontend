@@ -13,13 +13,17 @@ export const navItems: NavItemSchema[] = [
         url: AppRouteUi.Courses(),
       },
       {
+        name: "Online Tests",
+        url: AppRouteUi.Exam(),
+      },
+      {
         name: "Login",
         url: AppRouteUi.Login(),
       },
       {
         name: "Register",
         url: AppRouteUi.Register(),
-      },
+      }
       
     ]
   

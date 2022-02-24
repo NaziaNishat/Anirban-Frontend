@@ -4,7 +4,7 @@ import { navItems } from "./navItems";
 import { Colors } from "../config/colors";
 import { Link } from "react-router-dom";
 import { AppRouteUi } from "../routes/appRoutes";
-const image = require('../assets/anirban-logo.png')
+const image = require('../assets/odommo_green1.png')
 // import anirban-logo from "";
 
 export const Navbar = () => {
@@ -15,14 +15,16 @@ export const Navbar = () => {
           <Box position="relative">
             <Box
               position="absolute"
-              top={0}
-              left={0}
-              padding={3}
+              // top={0}
+              // left={0}
+              pl={1}
+              pr={1}
+              // pl={3}
               background="white"
               zIndex={999}
               maxWidth="110px"
             >
-              <Image src={image} alt="SUST" />
+              <Image src={image} alt="Odommo" />
             </Box>
             <Box
               display="flex"
@@ -40,7 +42,7 @@ export const Navbar = () => {
                 fontWeight="regular"
                 color={Colors.secondary}
               >
-                Anirban Defence Academy
+                ODOMMO DEFENCE & SOLDIERS ACADEMY
               </Heading>
             </Box>
           </Box>

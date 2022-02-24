@@ -17,6 +17,7 @@ import { Courses } from "./pages/courses";
 import { AppRouteUi } from "./routes/appRoutes";
 import { Navbar } from "./nav/NavBar";
 import {Footer} from "./generics/Footer"
+import { Exam } from "./pages/exam";
 
 function App() {
   const isAuthenticated = !!localStorage.getItem("token");
@@ -37,6 +38,10 @@ function App() {
         <Route
           path={AppRouteUi.Courses()}
           element={<Courses />}
+        />
+          <Route
+          path={AppRouteUi.Exam()}
+          element={<Exam />}
         />
         <Route
           path={AppRouteUi.Login()}

@@ -46,7 +46,7 @@ import {
         paddingTop="5vh"
         paddingBottom="5vh"
       >
-        <Box minW={400} p={5} background="white" borderRadius={5} shadow="md">
+        <Box minW={800} p={5} background="white" borderRadius={5} shadow="md">
           <Heading as="h1" size="lg" fontWeight="regular" color={Colors.primary}>
             Create Account
           </Heading>
@@ -131,7 +131,12 @@ import {
               >
                 <option key="1" value="1">2017</option>
                 <option key="2" value="2">2018</option>
-                <option key="2" value="3">2019</option>
+                <option key="3" value="3">2019</option>
+                <option key="4" value="4">2020</option>
+                <option key="5" value="5">2021</option>
+                <option key="6" value="6">2022</option>
+                <option key="7" value="7">2023</option>
+                <option key="8" value="8">2024</option>
               </Input>
             </FormControl>
 

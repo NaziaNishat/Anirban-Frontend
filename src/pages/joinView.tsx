@@ -17,7 +17,7 @@ import { AppRouteUi } from "../routes/appRoutes";
 export const JoinView = () => {
   const navigate = useNavigate();
   const handleSubmit = async () =>{
-    navigate(AppRouteUi.Courses());
+    navigate(AppRouteUi.Register());
   }
   return (
     <Container
@@ -31,7 +31,7 @@ export const JoinView = () => {
       borderRadius={5}
     >
       <Heading fontSize="3xl" fontWeight="regular" color={Colors.secondary}>
-        Want To Have The Experience Of A Life Time?
+        Looking For Best Defence Preparation Course In Bangladesh?
       </Heading>
       <Box
         display="flex"

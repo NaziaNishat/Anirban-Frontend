@@ -4,6 +4,8 @@ export const AppRouteUi = {
     About: () => "/about",
     Login: () => "/login",
     Logout: () => "/logout",
-    Courses: () => "/courses"
+    Courses: () => "/courses",
+    AboutUs: () => "/aboutus",
+    Exam: () => "/exam",
   };
   
