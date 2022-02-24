@@ -11,9 +11,14 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { Colors } from "../config/colors";
+import { useNavigate } from "react-router-dom";
+import { AppRouteUi } from "../routes/appRoutes";
 
 export const JoinView = () => {
-
+  const navigate = useNavigate();
+  const handleSubmit = async () =>{
+    navigate(AppRouteUi.Courses());
+  }
   return (
     <Container
       maxW="container.lg"
@@ -38,7 +43,7 @@ export const JoinView = () => {
           size="lg"
           color={Colors.secondary}
           backgroundColor={Colors.primary}
-          // onClick={handleSubmit}
+          onClick={handleSubmit}
           _hover={{
             color: Colors.primary,
             background: Colors.secondary,

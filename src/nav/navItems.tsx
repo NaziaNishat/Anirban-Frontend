@@ -9,6 +9,10 @@ export const navItems: NavItemSchema[] = [
         url: AppRouteUi.Root(),
       },
       {
+        name: "Courses",
+        url: AppRouteUi.Courses(),
+      },
+      {
         name: "Login",
         url: AppRouteUi.Login(),
       },
@@ -16,5 +20,6 @@ export const navItems: NavItemSchema[] = [
         name: "Register",
         url: AppRouteUi.Register(),
       },
+      
     ]
   

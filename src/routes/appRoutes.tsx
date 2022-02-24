@@ -3,6 +3,7 @@ export const AppRouteUi = {
     Register: () => "/register",
     About: () => "/about",
     Login: () => "/login",
-    Logout: () => "/logout"
+    Logout: () => "/logout",
+    Courses: () => "/courses"
   };
   

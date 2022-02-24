@@ -22,10 +22,10 @@ export const Footer = () => {
         </Box>
         <Box m={2} minW={200} p={2}>
           <Box as="h3" fontSize="lg" fontWeight="bold" mb={4}>
-            Anirban Location
+            Anirban Defence Academy Location
           </Box>
           <Box as="p" fontSize="md" mb={4}>
-            Click to Open On Google Map : <u><a href="https://maps.app.goo.gl/8SW2VtDbNczgPKSm8https://maps.app.goo.gl/ZAQuXTwtJDbnXsHC9" target="_blank">Anirban Training Academy, Sylhet</a></u>
+            Click to Open On Google Map : <u><a href="https://maps.app.goo.gl/8SW2VtDbNczgPKSm8https://maps.app.goo.gl/ZAQuXTwtJDbnXsHC9" target="_blank">Anirban Defence Academy, Sylhet</a></u>
           </Box>
         </Box>
         <Box m={2} minW={200} p={2}>
@@ -33,10 +33,10 @@ export const Footer = () => {
             Contact
           </Box>
           <Box as="p" fontSize="md" mb={4}>
-            For any query or feedback please phone:
+            For any query or feedback please phone (24/7):
             <br />
             {/* <a href="mailto:nazia.nishat1971@gmail.com">guest.house@sust.edu</a> */}
-            01722222222
+            01794775480, 01626662745
           </Box>
         </Box>
         <Box m={2} minW={200} p={2}>
