@@ -10,6 +10,7 @@ export const Banner = () => {
       backgroundSize="cover"
       backgroundPosition="center"
       minH="50vh"
+      minWidth='100%'
       position={"relative"}
     >
       <Box

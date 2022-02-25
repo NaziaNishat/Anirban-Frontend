@@ -43,7 +43,7 @@ export const LoginPage = () => {
       justifyContent="center"
       alignItems="center"
     >
-      <Box minW={400} p={5} background="white" borderRadius={5} shadow="md">
+      <Box minW='50%' p={5} background="white" borderRadius={5} shadow="md">
         <Heading as="h1" size="lg" fontWeight="regular" color={Colors.primary}>
           Log In
         </Heading>

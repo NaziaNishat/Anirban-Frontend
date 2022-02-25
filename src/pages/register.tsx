@@ -46,7 +46,7 @@ import {
         paddingTop="5vh"
         paddingBottom="5vh"
       >
-        <Box minW={800} p={5} background="white" borderRadius={5} shadow="md">
+        <Box minW='50%' p={5} background="white" borderRadius={5} shadow="md">
           <Heading as="h1" size="lg" fontWeight="regular" color={Colors.primary}>
             Create Account
           </Heading>
