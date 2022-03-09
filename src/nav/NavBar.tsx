@@ -3,7 +3,7 @@ import { Nav } from "./Nav";
 import { navItems } from "./navItems";
 import { Colors } from "../config/colors";
 import { Link } from "react-router-dom";
-import { AppRouteUi } from "../routes/appRoutes";
+import { AppRouteUi } from "../config/appRoutes";
 const image = require('../assets/odommo_green1.png')
 // import anirban-logo from "";
 

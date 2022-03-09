@@ -2,6 +2,7 @@ import { Box } from "@chakra-ui/react";
 import { Banner } from "./banner";
 import { AboutUs } from "./aboutUs";
 import { Courses } from "./courses";
+import { Quizzes } from "./quizzes";
 
 
 export const Home = () => {
@@ -10,6 +11,7 @@ export const Home = () => {
       <Banner />
       <Courses />
       <AboutUs />
+      <Quizzes />
     </Box>
   );
 };

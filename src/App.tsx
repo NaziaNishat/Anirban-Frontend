@@ -14,7 +14,7 @@ import { Home } from "./pages/home";
 import { LoginPage } from "./pages/login";
 import { Register } from "./pages/register";
 import { Courses } from "./pages/courses";
-import { AppRouteUi } from "./routes/appRoutes";
+import { AppRouteUi } from "./config/appRoutes";
 import { Navbar } from "./nav/NavBar";
 import {Footer} from "./generics/Footer"
 import { Exam } from "./pages/exam";

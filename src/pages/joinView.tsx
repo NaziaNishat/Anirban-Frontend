@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 import { Colors } from "../config/colors";
 import { useNavigate } from "react-router-dom";
-import { AppRouteUi } from "../routes/appRoutes";
+import { AppRouteUi } from "../config/appRoutes";
 
 export const JoinView = () => {
   const navigate = useNavigate();

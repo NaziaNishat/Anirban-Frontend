@@ -10,28 +10,50 @@ import {
 import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Colors } from "../config/colors";
+import { Login } from "../api/auth";
+import { errorToast } from "../utils/toasts";
 
 export const LoginPage = () => {
-  // const isAuthenticated = !!localStorage.getItem("token");
+  const isAuthenticated = !!localStorage.getItem("token");
   const navigate = useNavigate();
 
-  // if (isAuthenticated) navigate("/");
+  if (isAuthenticated) navigate("/");
 
-  const [userName, setUserName] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
   const toast = useToast();
 
-  // const isDisabled = useMemo(
-  //   () =>
-  //     !(
-  //       userName &&
-  //       password &&
-  //       userName.trim().toLowerCase().endsWith("@sust.edu")
-  //     ),
-  //   [password, userName]
-  // );
+  const isDisabled = useMemo(
+    () =>
+      !(
+        email &&
+        password 
+        // && email.trim().toLowerCase().endsWith("@sust.edu")
+      ),
+    [password, email]
+  );
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setIsLoading(true);
+    try {
+      const response = await Login({
+        email: email,
+        password: password,
+      });
+
+      // if (response?.validationResult.isValid) 
+      window.location.href = "/";
+      // else toast(errorToast(response));
+    } catch (error) {
+      toast(errorToast());
+      console.log(error);
+      
+    }
+    setIsLoading(false);
+  };
 
   
 
@@ -47,14 +69,14 @@ export const LoginPage = () => {
         <Heading as="h1" size="lg" fontWeight="regular" color={Colors.primary}>
           Log In
         </Heading>
-        <form>
+        <form onSubmit={handleSubmit}>
           <FormControl mt={4}>
-            <FormLabel htmlFor="UserName">Email</FormLabel>
+            <FormLabel htmlFor="Email">Email</FormLabel>
             <Input
-              id="UserName"
+              id="Email"
               type="text"
-              value={userName}
-              onChange={(e) => setUserName(e.target.value)}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </FormControl>
 
@@ -73,8 +95,8 @@ export const LoginPage = () => {
             type="submit"
             mx="auto"
             // variantColor="teal"
-            // isLoading={isLoading}
-            // isDisabled={isDisabled}
+            isLoading={isLoading}
+            isDisabled={isDisabled}
           >
             Login
           </Button>

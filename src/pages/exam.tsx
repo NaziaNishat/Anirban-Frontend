@@ -11,7 +11,7 @@ import {
 } from "@chakra-ui/react";
 import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { AppRouteUi } from "../routes/appRoutes";
+import { AppRouteUi } from "../config/appRoutes";
 import { Colors } from "../config/colors";
 
 export const Exam = () => {
