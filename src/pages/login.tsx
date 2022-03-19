@@ -7,13 +7,14 @@ import {
   Input,
   useToast,
 } from "@chakra-ui/react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Colors } from "../config/colors";
 import { Login } from "../api/auth";
 import { errorToast } from "../utils/toasts";
 
 export const LoginPage = () => {
+
   const isAuthenticated = !!localStorage.getItem("token");
   const navigate = useNavigate();
 
@@ -23,13 +24,12 @@ export const LoginPage = () => {
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const toast = useToast();
+    // const toast = useToast();
 
   const isDisabled = useMemo(
     () =>
       !(
-        email &&
-        password 
+        (email && password)
         // && email.trim().toLowerCase().endsWith("@sust.edu")
       ),
     [password, email]
@@ -44,18 +44,15 @@ export const LoginPage = () => {
         password: password,
       });
 
-      // if (response?.validationResult.isValid) 
+      // if (response?.validationResult.isValid)
       window.location.href = "/";
       // else toast(errorToast(response));
     } catch (error) {
-      toast(errorToast());
+      // toast(errorToast());
       console.log(error);
-      
     }
     setIsLoading(false);
   };
-
-  
 
   return (
     <Box
@@ -65,7 +62,7 @@ export const LoginPage = () => {
       justifyContent="center"
       alignItems="center"
     >
-      <Box minW='50%' p={5} background="white" borderRadius={5} shadow="md">
+      <Box minW="50%" p={5} background="white" borderRadius={5} shadow="md">
         <Heading as="h1" size="lg" fontWeight="regular" color={Colors.primary}>
           Log In
         </Heading>
@@ -105,3 +102,4 @@ export const LoginPage = () => {
     </Box>
   );
 };
+

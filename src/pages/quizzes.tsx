@@ -1,8 +1,10 @@
-import { Box, Heading, Spinner, Text, useToast } from "@chakra-ui/react";
+import { Box, Button, Spinner, Stack, Text, useToast } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { GetQuizzes } from "../api/quizzes";
 import { Colors } from "../config/colors";
 import { QuizzesSchema } from "../models/responses/quizzes";
+import { useNavigate } from "react-router-dom";
+import { AppRouteUi } from "../config/appRoutes";
 
 export const Quizzes = () => {
   const [quizzes, setQuizzes] = useState<QuizzesSchema[]>([]);
@@ -14,7 +16,7 @@ export const Quizzes = () => {
     setQuizzesLoading(true);
     GetQuizzes()
       .then((res) => {
-        setQuizzes(res.result || []);
+        setQuizzes(res || []);
         setQuizzesLoading(false);
         console.log(res);
       })
@@ -28,15 +30,29 @@ export const Quizzes = () => {
       });
   }, []);
 
+  const navigate = useNavigate();
+
+  const quizHandler = async () => {
+    navigate(AppRouteUi.Quiz());
+  }
+
   return (
-    <Box>
-      {quizzesLoading ? (
-        <Spinner />
-      ) : (
-        <Box background={Colors.secondary} width='1000vw'>
-          <Text>Quizzes</Text>
-        </Box>
-      )}
+    <Box
+      minH="75vh"
+      background={Colors.secondary}
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+    >
+      <Box minW="50%" p={5} background="white" borderRadius={5} shadow="md">
+        <Stack direction="column">
+          {quizzes.map((quiz) => (
+            <Button key={quiz.id} onClick={quizHandler}>
+              {quiz.name}
+            </Button>
+          ))}
+        </Stack>
+      </Box>
     </Box>
   );
 };

@@ -13,3 +13,6 @@ export type APIResponseSchema<T> = {
   result?: T;
   events: null;
 };
+
+
+

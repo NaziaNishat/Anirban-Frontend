@@ -3,7 +3,9 @@ import { AxiosAuth } from "../axios";
 import { AppRouteApi } from "../config/appRoutes";
 import { APIResponseSchema } from "../models/apiResponse";
 import { LoginRequestSchema } from "../models/requests/login";
+import { RegisterSchema } from "../models/requests/register";
 import { TokenSchema } from "../models/responses/token";
+import { resSchema } from "../models/resSchema";
 
 export const Login = async (credentials: LoginRequestSchema) => {
     try {
@@ -28,6 +30,20 @@ export const Login = async (credentials: LoginRequestSchema) => {
     } catch (error) {
       console.log(error);
       // return false;
+    }
+  };
+
+  export const Register = async (data: RegisterSchema) => {
+    try{
+    const res = await AxiosAuth.post<resSchema>(
+      AppRouteApi.Register(),
+      data
+    );
+    return res.data;
+
+    }catch(error){
+      console.log(error);
+      
     }
   };
   

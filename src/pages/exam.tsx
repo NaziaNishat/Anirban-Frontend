@@ -17,7 +17,7 @@ import { Colors } from "../config/colors";
 export const Exam = () => {
     const navigate = useNavigate();
     const handleExam = async () =>{
-      navigate(AppRouteUi.Login());
+      navigate(AppRouteUi.Quizzes());
     }
     return (
         <Box
