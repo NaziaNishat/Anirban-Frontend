@@ -88,7 +88,7 @@ export const Quiz = () => {
 
   const answerHandler = async (id: any) => {
     // setIsAnswered((prevState) => !prevState);
-    await GetSaveAnswer({
+    const result = await GetSaveAnswer({
       quiz: quiz?.quiz?.id!,
       question: question[index].id!,
       answer: id,
@@ -138,6 +138,7 @@ export const Quiz = () => {
             p={10}
             margin={20}
           >
+          {quiz?.quiz?.quiztakers_set?.completed ? <Heading>You already submitted this quiz!</Heading> : (
             <form onSubmit={handleSubmit}>
               <Box display="flex" flexDirection="row">
                 {question.map((q) => (
@@ -218,6 +219,7 @@ export const Quiz = () => {
                 </Button>
               </Box>
             </form>
+            )}
           </Box>
         </Box>
       )}
