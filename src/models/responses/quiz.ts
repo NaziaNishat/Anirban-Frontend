@@ -36,3 +36,9 @@ export type QuizSchema = {
   };
   last_question_id?: string;
 };
+
+export type MyQuizSchema = {
+  name?: string,
+  description?: string,
+  score?: number
+};

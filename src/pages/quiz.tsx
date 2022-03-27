@@ -2,15 +2,13 @@ import {
   Box,
   Button,
   Heading,
-  Radio,
-  RadioGroup,
   SimpleGrid,
   Spinner,
-  Text,
   useToast,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { GetQuiz, GetSaveAnswer, GetSingleQuiz } from "../api/quizzes";
+import { useLocation, useParams } from "react-router-dom";
+import { GetQuiz, GetSaveAnswer, GetSubmitAnswer } from "../api/quizzes";
 import { Colors } from "../config/colors";
 import { AnswerSchema, QuestionSchema } from "../models/responses/question";
 import { QuizSchema } from "../models/responses/quiz";
@@ -23,19 +21,36 @@ export const Quiz = () => {
   const [selectedAnswer, setSelectedAnswer] = useState();
   const [question, setQuestion] = useState<QuestionSchema[]>([]);
   const [quizLoading, setQuizLoading] = useState(true);
+  // const answered = {
+  //   flag: Boolean
+  // };
+  // const [isAnswered, setIsAnswered] = useState({});
 
   const toast = useToast();
+  const { results } = useParams();
+  const location = useLocation();
+
+  interface CustomizedState {
+    slug: string;
+  }
 
   useEffect(() => {
     setQuizLoading(true);
-    GetQuiz()
+
+    const state = location.state as CustomizedState;
+    const { slug } = state;
+    console.log(slug);
+
+    GetQuiz(slug)
       .then((res) => {
         setQuiz(res);
+        console.log(res);
+
         return res?.quiz?.question_set;
       })
       .then((res: any) => {
         setQuestion(res);
-        return res[0].answer_set;
+        return res[index].answer_set;
       })
       .then((res) => {
         setAnswer(res);
@@ -55,6 +70,10 @@ export const Quiz = () => {
       });
   }, []);
 
+  useEffect(() => {
+    if(!quizLoading){setAnswer(question[index].answer_set)};
+  },[index]);
+
   const prevHandler = () => {
     return index > 0
       ? (setAnswer(question[index - 1].answer_set), setIndex(index - 1))
@@ -67,9 +86,10 @@ export const Quiz = () => {
       : null;
   };
 
-  const answerHandler = async (id: number) => {
+  const answerHandler = async (id: any) => {
+    // setIsAnswered((prevState) => !prevState);
     await GetSaveAnswer({
-      quiztaker: "1",
+      quiz: quiz?.quiz?.id!,
       question: question[index].id!,
       answer: id,
     })
@@ -79,6 +99,14 @@ export const Quiz = () => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    const res = await GetSubmitAnswer({
+      quiz: quiz?.quiz?.id!,
+      question: question[index].id!,
+      answer: selectedAnswer!,
+    });
+    console.log(res);
+    
+    alert("Submitted");
     // setIsLoading(true);
     // try {
     //   const response = await Login({
@@ -111,21 +139,47 @@ export const Quiz = () => {
             margin={20}
           >
             <form onSubmit={handleSubmit}>
+              <Box display="flex" flexDirection="row">
+                {question.map((q) => (
+                  <Button
+                  key={q.id}
+                    size="sm"
+                    border="2px"
+                    onClick={() => {
+                      let num: number = +q.id!;
+                      num = num-1;
+                      console.log("Previndex: "+index);
+
+                      console.log("num: "+num);
+
+                      setIndex(num);
+                      console.log("index: "+index);
+
+                      // setAnswer(question[index].answer_set);
+                    }}
+                  >
+                    {q.id}
+                  </Button>
+                ))}
+              </Box>
+
               <Heading key={question[index].id}>
                 {question[index].label}
               </Heading>
               {answer instanceof Array ? (
                 <SimpleGrid column={2}>
                   {answer.map((options, index) => (
-                    <Box>
+                    <Box key={index}>
                       <Button
                         size="md"
                         minWidth="100%"
                         border="2px"
                         borderColor="green.500"
-                        key={index}
-                        value={options.id}
-                        onClick={() => answerHandler(options.id)}
+                        
+                        onClick={() => {
+                          setSelectedAnswer(options.id);
+                          answerHandler(options.id);
+                        }}
                       >
                         {options.label}
                       </Button>

@@ -42,7 +42,7 @@ export const LoginPage = () => {
       const response = await Login({
         email: email,
         password: password,
-      });
+      });      
 
       // if (response?.validationResult.isValid)
       window.location.href = "/";

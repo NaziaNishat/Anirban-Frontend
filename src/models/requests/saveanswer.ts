@@ -1,6 +1,13 @@
 export type SaveAnswerSchema = {
-    quiztaker: string;
+    quiz: string;
     question: string;
-    answer: number
+    answer: string
 };
+
+export type SubmitAnswerSchema = {
+    quiz: string;
+    question: string;
+    answer: string | null
+};
+  
   

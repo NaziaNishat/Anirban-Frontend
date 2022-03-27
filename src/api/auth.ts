@@ -6,7 +6,7 @@ import { LoginRequestSchema } from "../models/requests/login";
 import { RegisterSchema } from "../models/requests/register";
 import { TokenSchema } from "../models/responses/token";
 import { resSchema } from "../models/resSchema";
-
+import jwtDecode, { JwtPayload } from "jwt-decode";
 export const Login = async (credentials: LoginRequestSchema) => {
     try {
       const res = await axios.post<TokenSchema>(
@@ -21,6 +21,8 @@ export const Login = async (credentials: LoginRequestSchema) => {
         res.data?.access &&
         res.data?.refresh
       ) {
+        const decodedToken = jwtDecode<any>(res.data.access);
+        localStorage.setItem("userId", decodedToken.id);
         // localStorage.setItem("token", res.data.result.access);
         // localStorage.setItem("refresh_token", res.data.result.refresh);
         localStorage.setItem("token", res.data.access);

@@ -1,4 +1,4 @@
-import { Box, Button, Spinner, Stack, Text, useToast } from "@chakra-ui/react";
+import { Box, Button, Spinner, Stack, useToast } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { GetQuizzes } from "../api/quizzes";
 import { Colors } from "../config/colors";
@@ -32,9 +32,9 @@ export const Quizzes = () => {
 
   const navigate = useNavigate();
 
-  const quizHandler = async () => {
-    navigate(AppRouteUi.Quiz());
-  }
+  const quizHandler = async (slug: string) => {
+    navigate(AppRouteUi.Quiz(), { state: { slug: slug } });
+  };
 
   return (
     <Box
@@ -44,15 +44,19 @@ export const Quizzes = () => {
       justifyContent="center"
       alignItems="center"
     >
-      <Box minW="50%" p={5} background="white" borderRadius={5} shadow="md">
-        <Stack direction="column">
-          {quizzes.map((quiz) => (
-            <Button key={quiz.id} onClick={quizHandler}>
-              {quiz.name}
-            </Button>
-          ))}
-        </Stack>
-      </Box>
+      {quizzesLoading ? (
+        <Spinner />
+      ) : (
+        <Box minW="50%" p={5} background="white" borderRadius={5} shadow="md">
+          <Stack direction="column">
+            {quizzes.map((quiz) => (
+              <Button key={quiz.id} onClick={() => quizHandler(quiz.slug!)}>
+                {quiz.name}
+              </Button>
+            ))}
+          </Stack>
+        </Box>
+      )}
     </Box>
   );
 };
