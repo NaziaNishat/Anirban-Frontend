@@ -19,6 +19,10 @@ export const navItems: NavItemSchema[] = isAuthenticated
         url: AppRouteUi.Exam(),
       },
       {
+        name: "My Quizzes",
+        url: AppRouteUi.MyQuizzes(),
+      },
+      {
         name: "Logout",
         action: Logout,
       },

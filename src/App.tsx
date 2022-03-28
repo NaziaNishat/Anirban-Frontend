@@ -20,6 +20,7 @@ import { Footer } from "./generics/Footer";
 import { Exam } from "./pages/exam";
 import { Quizzes } from "./pages/quizzes";
 import { Quiz } from "./pages/quiz";
+import { MyQuiz } from "./pages/myQuiz";
 
 function App() {
   const isAuthenticated = !!localStorage.getItem("token");
@@ -40,6 +41,7 @@ function App() {
         <Route path={AppRouteUi.Courses()} element={<Courses />} />
         <Route path={AppRouteUi.Exam()} element={<Exam />} />
         <Route path={AppRouteUi.Quizzes()} element={<Quizzes />} />
+        <Route path={AppRouteUi.MyQuizzes()} element={<MyQuiz />} />
         <Route path={AppRouteUi.Quiz()} element={<Quiz />} />
         <Route path={AppRouteUi.Login()} element={<LoginPage />} />
         <Route path={AppRouteUi.Register()} element={<RegisterPage />} />

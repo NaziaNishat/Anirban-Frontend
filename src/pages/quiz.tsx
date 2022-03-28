@@ -21,13 +21,8 @@ export const Quiz = () => {
   const [selectedAnswer, setSelectedAnswer] = useState();
   const [question, setQuestion] = useState<QuestionSchema[]>([]);
   const [quizLoading, setQuizLoading] = useState(true);
-  // const answered = {
-  //   flag: Boolean
-  // };
-  // const [isAnswered, setIsAnswered] = useState({});
 
   const toast = useToast();
-  const { results } = useParams();
   const location = useLocation();
 
   interface CustomizedState {
@@ -50,12 +45,12 @@ export const Quiz = () => {
       })
       .then((res: any) => {
         setQuestion(res);
+        console.log(res);
+
         return res[index].answer_set;
       })
       .then((res) => {
         setAnswer(res);
-        console.log(res);
-
         setQuizLoading(false);
       })
       .catch((err) => {
@@ -71,23 +66,39 @@ export const Quiz = () => {
   }, []);
 
   useEffect(() => {
-    if(!quizLoading){setAnswer(question[index].answer_set)};
-  },[index]);
+    if (!quizLoading) {
+      setAnswer(question[index].answer_set);
+    }
+  }, [index]);
 
   const prevHandler = () => {
     return index > 0
       ? (setAnswer(question[index - 1].answer_set), setIndex(index - 1))
-      : null;
+      : toast({
+          title: "No Previous Questions!",
+          status: "info",
+          duration: 3000,
+          isClosable: true,
+        });
   };
 
   const nextHandler = () => {
     return index < question.length - 1
       ? (setAnswer(question[index + 1].answer_set), setIndex(index + 1))
-      : null;
+      : toast({
+          title: "No More Questions!",
+          status: "info",
+          duration: 3000,
+          isClosable: true,
+        });
   };
 
-  const answerHandler = async (id: any) => {
-    // setIsAnswered((prevState) => !prevState);
+  const answerHandler = async (answers: any, id: any) => {
+    answers.forEach((x: any) => {
+      x.selected = false;
+    });
+    answers.find((x: any) => x.id === id).selected = true;
+
     const result = await GetSaveAnswer({
       quiz: quiz?.quiz?.id!,
       question: question[index].id!,
@@ -102,10 +113,10 @@ export const Quiz = () => {
     const res = await GetSubmitAnswer({
       quiz: quiz?.quiz?.id!,
       question: question[index].id!,
-      answer: selectedAnswer!,
+      answer: selectedAnswer ? selectedAnswer : null,
     });
     console.log(res);
-    
+
     alert("Submitted");
     // setIsLoading(true);
     // try {
@@ -138,87 +149,98 @@ export const Quiz = () => {
             p={10}
             margin={20}
           >
-          {quiz?.quiz?.quiztakers_set?.completed ? <Heading>You already submitted this quiz!</Heading> : (
-            <form onSubmit={handleSubmit}>
-              <Box display="flex" flexDirection="row">
-                {question.map((q) => (
-                  <Button
-                  key={q.id}
-                    size="sm"
-                    border="2px"
-                    onClick={() => {
-                      let num: number = +q.id!;
-                      num = num-1;
-                      console.log("Previndex: "+index);
+            {quiz?.quiz?.quiztakers_set?.completed ? (
+              <Heading>You already submitted this quiz!</Heading>
+            ) : (
+              <form onSubmit={handleSubmit}>
+                <Box
+                  display="flex"
+                  flexDirection="row"
+                  maxW={800}
+                  overflowX="scroll"
+                >
+                  {/* {Array.from(Array(100).keys()).map((a) => (
+                    <Button key={a} 
 
-                      console.log("num: "+num);
-
-                      setIndex(num);
-                      console.log("index: "+index);
-
-                      // setAnswer(question[index].answer_set);
-                    }}
-                  >
-                    {q.id}
-                  </Button>
-                ))}
-              </Box>
-
-              <Heading key={question[index].id}>
-                {question[index].label}
-              </Heading>
-              {answer instanceof Array ? (
-                <SimpleGrid column={2}>
-                  {answer.map((options, index) => (
-                    <Box key={index}>
-                      <Button
-                        size="md"
-                        minWidth="100%"
-                        border="2px"
-                        borderColor="green.500"
-                        
-                        onClick={() => {
-                          setSelectedAnswer(options.id);
-                          answerHandler(options.id);
-                        }}
-                      >
-                        {options.label}
-                      </Button>
-                    </Box>
+                    size="xs" border="1px">
+                      {a}
+                    </Button>
+                  ))} */}
+                  {question.map((q) => (
+                    <Button
+                      key={q.id}
+                      size="xs"
+                      border="1px"
+                      onClick={() => {
+                        let num: number = +q.order!;
+                        num = num - 1;
+                        setIndex(num);
+                      }}
+                    >
+                      {q.order}
+                    </Button>
                   ))}
-                </SimpleGrid>
-              ) : null}
-              <Box display="flex" justifyContent="flex-start">
-                <Button
-                  mt={5}
-                  border="2px"
-                  borderColor="green.500"
-                  onClick={prevHandler}
-                >
-                  Prev
-                </Button>
-                <Button
-                  mt={5}
-                  ml={5}
-                  border="2px"
-                  borderColor="green.500"
-                  onClick={nextHandler}
-                >
-                  Next
-                </Button>
-              </Box>
+                </Box>
 
-              <Box display="flex" justifyContent="flex-end">
-                <Button
-                  mt={5}
-                  type="submit"
-                  textColor="white"
-                  bgColor={Colors.primary}
-                >
-                  Submit
-                </Button>
-              </Box>
-            </form>
+                <Heading key={question[index].id}>
+                  {question[index].label}
+                </Heading>
+                {answer instanceof Array ? (
+                  <SimpleGrid column={2}>
+                    {answer.map((options, index) => (
+                      <Box key={index}>
+                        <Button
+                          m={0.5}
+                          size="md"
+                          minWidth="100%"
+                          border="2px"
+                          borderColor={Colors.primary}
+                          background={
+                            options.selected ? Colors.primary : Colors.secondary
+                          }
+                          textColor={options.selected ? "white" : "black"}
+                          onClick={() => {
+                            setSelectedAnswer(options.id);
+                            answerHandler(answer, options.id);
+                          }}
+                        >
+                          {options.label}
+                        </Button>
+                      </Box>
+                    ))}
+                  </SimpleGrid>
+                ) : null}
+                <Box display="flex" justifyContent="flex-start">
+                  <Button
+                    mt={5}
+                    border="2px"
+                    borderColor={Colors.primary}
+                    onClick={prevHandler}
+                  >
+                    Prev
+                  </Button>
+                  <Button
+                    mt={5}
+                    ml={5}
+                    border="2px"
+                    borderColor={Colors.primary}
+                    onClick={nextHandler}
+                  >
+                    Next
+                  </Button>
+                </Box>
+
+                <Box display="flex" justifyContent="flex-end">
+                  <Button
+                    mt={5}
+                    type="submit"
+                    textColor="white"
+                    bgColor={Colors.primary}
+                  >
+                    Submit
+                  </Button>
+                </Box>
+              </form>
             )}
           </Box>
         </Box>

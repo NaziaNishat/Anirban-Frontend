@@ -8,7 +8,8 @@ export const AppRouteUi = {
   AboutUs: () => "/about-us",
   Exam: () => "/exam",
   Quizzes: () => "/quizzes",
-  Quiz: () => "/quiz/:slug" ,
+  Quiz: () => "/quiz/:slug",
+  MyQuizzes: () => "/my-quizzes",
 };
 
 const AUTH_ROOT = "http://localhost:8000";
@@ -17,6 +18,7 @@ const DATA_ROOT = "http://localhost:8000";
 export const AppRouteApi = {
   Login: () => `${AUTH_ROOT}/token/`,
   Quizzes: () => `${AUTH_ROOT}/api/quizzes/`,
+  MyQuizzes: () => `${AUTH_ROOT}/api/my-quizzes/`,
   Quiz: (slug: string) => `${AUTH_ROOT}/api/quizzes/${slug}`,
   MyQuiz: () => `${AUTH_ROOT}/api/my-quizzes/`,
   Register: () => `${AUTH_ROOT}/api/signup`,
