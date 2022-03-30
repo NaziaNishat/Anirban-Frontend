@@ -35,16 +35,64 @@ function App() {
 
   return (
     <Router>
-      <Navbar />
       <Routes>
-        <Route path={AppRouteUi.Root()} element={<Home />} />
-        <Route path={AppRouteUi.Courses()} element={<Courses />} />
-        <Route path={AppRouteUi.Exam()} element={<Exam />} />
-        <Route path={AppRouteUi.Quizzes()} element={<Quizzes />} />
-        <Route path={AppRouteUi.MyQuizzes()} element={<MyQuiz />} />
+        <Route
+          path={AppRouteUi.Root()}
+          element={
+            <>
+              <Navbar /> <Home />
+            </>
+          }
+        />
+        <Route
+          path={AppRouteUi.Courses()}
+          element={
+            <>
+              <Navbar /> <Courses />
+            </>
+          }
+        />
+        <Route
+          path={AppRouteUi.Exam()}
+          element={
+            <>
+              <Navbar /> <Exam />
+            </>
+          }
+        />
+        <Route
+          path={AppRouteUi.Quizzes()}
+          element={
+            <>
+              <Navbar /> <Quizzes />
+            </>
+          }
+        />
+        <Route
+          path={AppRouteUi.MyQuizzes()}
+          element={
+            <>
+              <Navbar /> <MyQuiz />
+            </>
+          }
+        />
         <Route path={AppRouteUi.Quiz()} element={<Quiz />} />
-        <Route path={AppRouteUi.Login()} element={<LoginPage />} />
-        <Route path={AppRouteUi.Register()} element={<RegisterPage />} />
+        <Route
+          path={AppRouteUi.Login()}
+          element={
+            <>
+              <Navbar /> <LoginPage />
+            </>
+          }
+        />
+        <Route
+          path={AppRouteUi.Register()}
+          element={
+            <>
+              <Navbar /> <RegisterPage />
+            </>
+          }
+        />
         {/* <Route
           path={AppRouteUi.Profile()}
           element={protectedComponent(ProfilePage)}

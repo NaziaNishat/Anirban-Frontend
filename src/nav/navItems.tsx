@@ -4,6 +4,9 @@ import { Logout } from "../api/auth";
 
 const isAuthenticated = localStorage.getItem("token") !== null;
 
+// const location = window.location.pathname;
+// const isShowNav = (location == "/quiz/:slug") ? false : true;
+
 export const navItems: NavItemSchema[] = isAuthenticated
   ? [
       {
