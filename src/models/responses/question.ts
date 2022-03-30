@@ -8,6 +8,7 @@ export type QuestionSchema = {
   label?: string;
   order?: string;
   quiz?: string;
+  selected?: boolean;
 };
 
 export type AnswerSchema = {

@@ -52,13 +52,11 @@ export const Quiz = () => {
     GetQuiz(slug)
       .then((res) => {
         setQuiz(res);
-        console.log(res);
 
         return res?.quiz?.question_set;
       })
       .then((res: any) => {
         setQuestion(res);
-        console.log(res);
 
         return res[index].answer_set;
       })
@@ -67,8 +65,6 @@ export const Quiz = () => {
         setQuizLoading(false);
       })
       .catch((err) => {
-        console.log(err);
-
         toast({
           title: "Error loading data",
           status: "error",
@@ -106,19 +102,31 @@ export const Quiz = () => {
         });
   };
 
-  const answerHandler = async (answers: any, id: any) => {
+  const answerHandler = async (
+    answers: any,
+    ansId: any,
+    selectedQuestion: any
+  ) => {
+    // selectedQuestion.selected = true;
+    question[index].selected = true;
     answers.forEach((x: any) => {
       x.selected = false;
     });
-    answers.find((x: any) => x.id === id).selected = true;
+    answers.find((x: any) => x.id === ansId).selected = true;
+
+    const data = {
+      quiz: quiz?.quiz?.id!,
+      question: question[index].id!,
+      answer: ansId,
+    };
+
+    console.log(data);
 
     try {
-      await GetSaveAnswer({
-        quiz: quiz?.quiz?.id!,
-        question: question[index].id!,
-        answer: id,
-      });
+      await GetSaveAnswer(data);
     } catch (err) {
+      console.log(err);
+
       toast(errorToast());
     }
   };
@@ -126,16 +134,23 @@ export const Quiz = () => {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
-      await GetSubmitAnswer({
+      const res = await GetSubmitAnswer({
         quiz: quiz?.quiz?.id!,
         question: question[index].id!,
         answer: selectedAnswer ? selectedAnswer : null,
       });
+      console.log(res);
+
       onSubmitOpen();
-      window.location.href = "/";
     } catch (err) {
+      console.log(err);
+
       toast(errorToast());
     }
+  };
+
+  const onModalClose = () => {
+    window.location.href = "/";
   };
 
   return (
@@ -202,6 +217,10 @@ export const Quiz = () => {
                         key={q.id}
                         size="xs"
                         border="1px"
+                        background={
+                          q.selected ? Colors.primary : Colors.secondary
+                        }
+                        textColor={q.selected ? "white" : "black"}
                         onClick={() => {
                           let num: number = +q.order!;
                           num = num - 1;
@@ -213,7 +232,7 @@ export const Quiz = () => {
                     ))}
                   </Box>
 
-                  <Heading key={question[index].id}>
+                  <Heading key={question[index].id} as="h4" size="md" mt={5}>
                     {question[index].label}
                   </Heading>
                   {answer instanceof Array ? (
@@ -234,7 +253,11 @@ export const Quiz = () => {
                             textColor={options.selected ? "white" : "black"}
                             onClick={() => {
                               setSelectedAnswer(options.id);
-                              answerHandler(answer, options.id);
+                              answerHandler(
+                                answer,
+                                options.id,
+                                question[index]
+                              );
                             }}
                           >
                             {options.label}
@@ -274,7 +297,7 @@ export const Quiz = () => {
                     </Button>
 
                     <Modal
-                      onClose={onSubmitClose}
+                      onClose={onModalClose}
                       isOpen={isSubmitOpen}
                       isCentered
                     >
@@ -286,7 +309,7 @@ export const Quiz = () => {
                           <Heading>Quiz Submitted!</Heading>
                         </ModalBody>
                         <ModalFooter>
-                          <Button onClick={onSubmitClose}>Close</Button>
+                          <Button onClick={onModalClose}>Close</Button>
                         </ModalFooter>
                       </ModalContent>
                     </Modal>
