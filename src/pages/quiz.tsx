@@ -11,15 +11,13 @@ import {
   Spinner,
   useDisclosure,
   useToast,
-  Text,
   ModalHeader,
-  Container,
+  Center,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { GetQuiz, GetSaveAnswer, GetSubmitAnswer } from "../api/quizzes";
 import { Colors } from "../config/colors";
-import { CustomModal } from "../generics/CustomModal";
 import { AnswerSchema, QuestionSchema } from "../models/responses/question";
 import { QuizSchema } from "../models/responses/quiz";
 import { errorToast } from "../utils/toasts";
@@ -141,7 +139,14 @@ export const Quiz = () => {
   };
 
   return (
-    <Box>
+    <Box
+      width={[
+        "100%", // 0-30em
+        "100%", // 30em-48em
+        "100%", // 48em-62em
+        "100%", // 62em+
+      ]}
+    >
       {quizLoading ? (
         <Spinner />
       ) : (
@@ -151,14 +156,32 @@ export const Quiz = () => {
           <Box justifyContent="center" display="flex">
             <Box
               background={Colors.secondary}
-              minW="100hw"
+              width={[
+                "90%", // 0-30em
+                "90%", // 30em-48em
+                "90%", // 48em-62em
+                "70%", // 62em+
+              ]}
               borderRadius={5}
               shadow="md"
               p={10}
               margin={20}
             >
               {quiz?.quiz?.quiztakers_set?.completed ? (
-                <Heading>You already submitted this quiz!</Heading>
+                <Box>
+                  <Center h="15vh">
+                    <Heading>You already submitted this quiz!</Heading>
+                  </Center>
+                  <Box display="flex" justifyContent="flex-end">
+                    <Button
+                      colorScheme="teal"
+                      variant="outline"
+                      onClick={() => (window.location.href = "/")}
+                    >
+                      Back
+                    </Button>
+                  </Box>
+                </Box>
               ) : (
                 <form onSubmit={handleSubmit}>
                   <Box
