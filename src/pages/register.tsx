@@ -11,7 +11,9 @@ import {
 import { useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Register } from "../api/auth";
+import { AppRouteUi } from "../config/appRoutes";
 import { Colors } from "../config/colors";
+import { errorToast } from "../utils/toasts";
 
 export const RegisterPage = () => {
   // const isAuthenticated = !!localStorage.getItem("token");
@@ -47,10 +49,10 @@ export const RegisterPage = () => {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setIsLoading(true);
+    // setIsLoading(true);
     try {
       const response = await Register({
-        profile:{
+        profile: {
           first_name: first_name,
           last_name: last_name,
           age: age,
@@ -68,14 +70,27 @@ export const RegisterPage = () => {
         // confirm_password: "",
       });
 
-      // if (response?.validationResult.isValid)
-      // window.location.href = "/";
-      // else toast(errorToast(response));
+      console.log(response);
+
+      if (response?.success) {
+        toast({
+          title: "Registered Successfully! Please login to continue!",
+          status: "info",
+          duration: 9000,
+          isClosable: true,
+        });
+        navigate(AppRouteUi.Login());
+      } else
+        toast({
+          title: "Not Registered!",
+          status: "error",
+          duration: 3000,
+          isClosable: true,
+        });
     } catch (error) {
-      // toast(errorToast());
       console.log(error);
     }
-    setIsLoading(false);
+    // setIsLoading(false);
   };
 
   return (
@@ -139,10 +154,13 @@ export const RegisterPage = () => {
             <Input
               as={Select}
               id="gender"
-              value={gender}
+              // value={gender}
+              defaultValue={"DEFAULT"}
               onChange={(e) => setGender(e.target.value)}
             >
-
+              <option value="DEFAULT" disabled>
+                Select Gender
+              </option>
               <option key="1" value="M">
                 Male
               </option>
@@ -167,9 +185,13 @@ export const RegisterPage = () => {
             <Input
               as={Select}
               id="pforce"
-              value={preferred_force}
+              defaultValue={"DEFAULT"}
+              // value={preferred_force}
               onChange={(e) => setPreferredForce(e.target.value)}
             >
+              <option value="DEFAULT" disabled>
+                Select Force
+              </option>
               <option key="1" value="A">
                 Bangladesh Army
               </option>
@@ -187,9 +209,13 @@ export const RegisterPage = () => {
             <Input
               as={Select}
               id="h-batch"
-              value={hsc_batch}
+              // value={hsc_batch}
+              defaultValue={"DEFAULT"}
               onChange={(e) => setHSCBatch(e.target.value)}
             >
+              <option value="DEFAULT" disabled>
+                Select HSC Batch
+              </option>
               <option key="1" value="1">
                 2017
               </option>

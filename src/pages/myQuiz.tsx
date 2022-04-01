@@ -1,4 +1,9 @@
-import { Box, Spinner, toast, useToast, Text, Flex } from "@chakra-ui/react";
+import {
+  Box,
+  Spinner,
+  useToast,
+  Heading,
+} from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { GetMyQuiz, GetQuiz } from "../api/quizzes";
 import { Colors } from "../config/colors";
@@ -42,22 +47,30 @@ export const MyQuiz = () => {
         <Spinner />
       ) : (
         <Box>
-          {quizProfile.map((q, index) => (
-            <Box
-              key={index}
-              minW="60vw"
-              m={5}
-              p={5}
-              background="white"
-              borderRadius={5}
-              shadow="md"
-              alignItems="center"
-            >
-              <Box> Quiz: {q.name}</Box>
-              <Box>Description: {q.description}</Box>
-              <Box>Score: {q.score}</Box>
+          {quizProfile.length ? (
+            <Box>
+              {quizProfile.map((q, index) => (
+                <Box
+                  key={index}
+                  minW="60vw"
+                  m={5}
+                  p={5}
+                  background="white"
+                  borderRadius={5}
+                  shadow="md"
+                  alignItems="center"
+                >
+                  <Box> Quiz: {q.name}</Box>
+                  <Box>Description: {q.description}</Box>
+                  <Box>Score: {q.score}</Box>
+                </Box>
+              ))}
             </Box>
-          ))}
+          ) : (
+            <Box>
+              <Heading>No Quizzes Attempted!</Heading>
+            </Box>
+          )}
         </Box>
       )}
     </Box>

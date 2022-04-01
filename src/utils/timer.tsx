@@ -1,4 +1,4 @@
-import { Box, Center, Heading, Stack, Text } from "@chakra-ui/react";
+import { Text } from "@chakra-ui/react";
 import React, { useEffect } from "react";
 import { useState } from "react";
 
@@ -15,9 +15,11 @@ export const Timer: React.FC<Props> = (props) => {
       const progressLevel = setInterval(() => {
         decrement(secs - 1);
       }, 1000);
-      return () => clearInterval(progressLevel);
+      return () => {
+        clearInterval(progressLevel);
+      };
     }
-  }, [secs, hrs]);
+  }, [secs]);
 
   const min = parseInt(((secs / 60) % 60).toString(), 10);
   const sec = parseInt((secs % 60).toString(), 10);
