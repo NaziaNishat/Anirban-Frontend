@@ -15,11 +15,12 @@ import {
   Center,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { GetQuiz, GetSaveAnswer, GetSubmitAnswer } from "../api/quizzes";
 import { Colors } from "../config/colors";
 import { AnswerSchema, QuestionSchema } from "../models/responses/question";
 import { QuizSchema } from "../models/responses/quiz";
+import { Timer } from "../utils/timer";
 import { errorToast } from "../utils/toasts";
 
 export const Quiz = () => {
@@ -32,6 +33,8 @@ export const Quiz = () => {
 
   const toast = useToast();
   const location = useLocation();
+  const navigate = useNavigate();
+
   const {
     isOpen: isSubmitOpen,
     onOpen: onSubmitOpen,
@@ -57,11 +60,12 @@ export const Quiz = () => {
       })
       .then((res: any) => {
         setQuestion(res);
-
         return res[index].answer_set;
       })
       .then((res) => {
         setAnswer(res);
+        console.log(quiz?.quiz?.duration);
+
         setQuizLoading(false);
       })
       .catch((err) => {
@@ -131,6 +135,15 @@ export const Quiz = () => {
     }
   };
 
+  const convertToHours = (time: string) => {
+    let hours = +time.split(":")[0];
+    let mins = +time.split(":")[1];
+    let secs = +time.split(":")[2];
+
+    let timeInHours = hours + mins / 60 + secs / 60;
+    return timeInHours;
+  };
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
@@ -150,7 +163,7 @@ export const Quiz = () => {
   };
 
   const onModalClose = () => {
-    window.location.href = "/";
+    navigate(-1);
   };
 
   return (
@@ -162,176 +175,166 @@ export const Quiz = () => {
         "100%", // 62em+
       ]}
     >
-      {quizLoading ? (
-        <Spinner />
-      ) : (
-        <Box>
-          <Box bg={Colors.primary} minH="10vh" maxW="100hw"></Box>
+      <Box>
+        <Box bg={Colors.primary} minH="10vh" maxW="100vw"></Box>
 
-          <Box justifyContent="center" display="flex">
-            <Box
-              background={Colors.secondary}
-              width={[
-                "90%", // 0-30em
-                "90%", // 30em-48em
-                "90%", // 48em-62em
-                "70%", // 62em+
-              ]}
-              borderRadius={5}
-              shadow="md"
-              p={10}
-              margin={20}
-            >
-              {quiz?.quiz?.quiztakers_set?.completed ? (
-                <Box>
-                  <Center h="15vh">
-                    <Heading>You already submitted this quiz!</Heading>
-                  </Center>
-                  <Box display="flex" justifyContent="flex-end">
-                    <Button
-                      colorScheme="teal"
-                      variant="outline"
-                      onClick={() => (window.location.href = "/")}
-                    >
-                      Back
-                    </Button>
-                  </Box>
-                </Box>
-              ) : (
-                <form onSubmit={handleSubmit}>
-                  <Box
-                    display="flex"
-                    flexDirection="row"
-                    maxW={800}
-                    overflowX="scroll"
-                  >
-                    {/* {Array.from(Array(100).keys()).map((a) => (
-                    <Button key={a} 
-
-                    size="xs" border="1px">
-                      {a}
-                    </Button>
-                  ))} */}
-                    {question.map((q) => (
+        <Box justifyContent="center" display="flex">
+          <Box
+            background={Colors.secondary}
+            width={[
+              "100%", // 0-30em
+              "100%", // 30em-48em
+              "100%", // 48em-62em
+              "70%", // 62em+
+            ]}
+            borderRadius={5}
+            shadow="md"
+            p={10}
+            margin={20}
+          >
+            {quizLoading ? (
+              <Spinner size="xl" />
+            ) : (
+              <Box>
+                {quiz?.quiz?.quiztakers_set?.completed ? (
+                  <Box>
+                    <Center h="15vh">
+                      <Heading>You already submitted this quiz!</Heading>
+                    </Center>
+                    <Box display="flex" justifyContent="flex-end">
                       <Button
-                        key={q.id}
-                        size="xs"
-                        border="1px"
-                        background={
-                          q.selected ? Colors.primary : Colors.secondary
-                        }
-                        textColor={q.selected ? "white" : "black"}
-                        onClick={() => {
-                          let num: number = +q.order!;
-                          num = num - 1;
-                          setIndex(num);
-                        }}
+                        colorScheme="teal"
+                        variant="outline"
+                        onClick={() => navigate(-1)}
                       >
-                        {q.order}
+                        Back
                       </Button>
-                    ))}
+                    </Box>
                   </Box>
+                ) : (
+                  <form onSubmit={handleSubmit}>
+                    <Box
+                      display="flex"
+                      flexDirection="row"
+                      maxW="100vw"
+                      overflowX="scroll"
+                    >
+                      {/* {Array.from(Array(100).keys()).map((a) => (
+                        <Button key={a} size="xs" border="1px">
+                          {a}
+                        </Button>
+                      ))} */}
 
-                  <Heading key={question[index].id} as="h4" size="md" mt={5}>
-                    {question[index].label}
-                  </Heading>
-                  {answer instanceof Array ? (
-                    <SimpleGrid column={2}>
-                      {answer.map((options, index) => (
-                        <Box key={index}>
-                          <Button
-                            m={0.5}
-                            size="md"
-                            minWidth="100%"
-                            border="2px"
-                            borderColor={Colors.primary}
-                            background={
-                              options.selected
-                                ? Colors.primary
-                                : Colors.secondary
-                            }
-                            textColor={options.selected ? "white" : "black"}
-                            onClick={() => {
-                              setSelectedAnswer(options.id);
-                              answerHandler(
-                                answer,
-                                options.id,
-                                question[index]
-                              );
-                            }}
-                          >
-                            {options.label}
-                          </Button>
-                        </Box>
+                      {question.map((q) => (
+                        <Button
+                          key={q.id}
+                          size="xs"
+                          border="1px"
+                          background={
+                            q.selected ? Colors.primary : Colors.secondary
+                          }
+                          textColor={q.selected ? "white" : "black"}
+                          onClick={() => {
+                            let num: number = +q.order!;
+                            num = num - 1;
+                            setIndex(num);
+                          }}
+                        >
+                          {q.order}
+                        </Button>
                       ))}
-                    </SimpleGrid>
-                  ) : null}
-                  <Box display="flex" justifyContent="flex-start">
-                    <Button
-                      mt={5}
-                      border="2px"
-                      borderColor={Colors.primary}
-                      onClick={prevHandler}
-                    >
-                      Prev
-                    </Button>
-                    <Button
-                      mt={5}
-                      ml={5}
-                      border="2px"
-                      borderColor={Colors.primary}
-                      onClick={nextHandler}
-                    >
-                      Next
-                    </Button>
-                  </Box>
+                      <Timer hrs={convertToHours(quiz?.quiz?.duration!)} />
+                    </Box>
 
-                  <Box display="flex" justifyContent="flex-end">
-                    <Button
-                      mt={5}
-                      type="submit"
-                      textColor="white"
-                      bgColor={Colors.primary}
-                    >
-                      Submit
-                    </Button>
+                    <Heading key={question[index].id} as="h4" size="md" mt={5}>
+                      {question[index].label}
+                    </Heading>
+                    {answer instanceof Array ? (
+                      <SimpleGrid column={2}>
+                        {answer.map((options, index) => (
+                          <Box key={index}>
+                            <Button
+                              m={0.5}
+                              size="md"
+                              minWidth="100%"
+                              border="2px"
+                              borderColor={Colors.primary}
+                              background={
+                                options.selected
+                                  ? Colors.primary
+                                  : Colors.secondary
+                              }
+                              textColor={options.selected ? "white" : "black"}
+                              onClick={() => {
+                                setSelectedAnswer(options.id);
+                                answerHandler(
+                                  answer,
+                                  options.id,
+                                  question[index]
+                                );
+                              }}
+                            >
+                              {options.label}
+                            </Button>
+                          </Box>
+                        ))}
+                      </SimpleGrid>
+                    ) : null}
+                    <Box display="flex" justifyContent="flex-start">
+                      <Button
+                        mt={5}
+                        border="2px"
+                        borderColor={Colors.primary}
+                        onClick={prevHandler}
+                      >
+                        Prev
+                      </Button>
+                      <Button
+                        mt={5}
+                        ml={5}
+                        border="2px"
+                        borderColor={Colors.primary}
+                        onClick={nextHandler}
+                      >
+                        Next
+                      </Button>
+                    </Box>
 
-                    <Modal
-                      onClose={onModalClose}
-                      isOpen={isSubmitOpen}
-                      isCentered
-                    >
-                      <ModalOverlay />
-                      <ModalContent>
-                        <ModalHeader></ModalHeader>
-                        {/* <ModalCloseButton /> */}
-                        <ModalBody>
-                          <Heading>Quiz Submitted!</Heading>
-                        </ModalBody>
-                        <ModalFooter>
-                          <Button onClick={onModalClose}>Close</Button>
-                        </ModalFooter>
-                      </ModalContent>
-                    </Modal>
-                    {/* <Modal onClose={onDoneClose} isOpen={isDoneOpen} isCentered>
-                      <ModalOverlay />
-                      <ModalContent>
-                        <ModalHeader></ModalHeader>
-                        <ModalBody>
-                          <Heading>Already Submitted!</Heading>
-                        </ModalBody>
-                        <ModalFooter>
-                          <Button onClick={onDoneClose}>Close</Button>
-                        </ModalFooter>
-                      </ModalContent>
-                    </Modal> */}
-                  </Box>
-                </form>
-              )}
-            </Box>
+                    <Box display="flex" justifyContent="flex-end">
+                      <Button
+                        mt={5}
+                        type="submit"
+                        textColor="white"
+                        bgColor={Colors.primary}
+                      >
+                        Submit
+                      </Button>
+
+                      <Modal
+                        onClose={onModalClose}
+                        isOpen={isSubmitOpen}
+                        isCentered
+                      >
+                        <ModalOverlay />
+                        <ModalContent>
+                          <ModalHeader></ModalHeader>
+                          {/* <ModalCloseButton /> */}
+                          <ModalBody>
+                            <Heading>Quiz Submitted!</Heading>
+                          </ModalBody>
+                          <ModalFooter>
+                            <Button onClick={onModalClose}>Close</Button>
+                          </ModalFooter>
+                        </ModalContent>
+                      </Modal>
+                    </Box>
+                  </form>
+                )}
+              </Box>
+            )}
           </Box>
         </Box>
-      )}
+      </Box>
     </Box>
   );
 };

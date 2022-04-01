@@ -4,8 +4,7 @@ import { navItems } from "./navItems";
 import { Colors } from "../config/colors";
 import { Link } from "react-router-dom";
 import { AppRouteUi } from "../config/appRoutes";
-const image = require('../assets/odommo_green1.png')
-// import anirban-logo from "";
+const image = require("../assets/odommo_green1.png");
 
 export const Navbar = () => {
   return (
@@ -13,17 +12,7 @@ export const Navbar = () => {
       <Box bg={Colors.primary}>
         <Container maxW="container.lg">
           <Box position="relative">
-            <Box
-              position="absolute"
-              // top={0}
-              // left={0}
-              pl={1}
-              pr={1}
-              // pl={3}
-              background="white"
-              zIndex={999}
-              maxWidth="110px"
-            >
+            <Box position="absolute" background="white" maxWidth="8vh">
               <Image src={image} alt="Odommo" />
             </Box>
             <Box
@@ -38,8 +27,8 @@ export const Navbar = () => {
                 display="flex"
                 alignItems="center"
                 to={`${AppRouteUi.Root()}`}
-                paddingLeft={["30%", "20%", "15%", "13%"]}
-                fontWeight="regular"
+                paddingLeft={["25%", "18%", "12%", "10%"]}
+                fontSize={{ base: "20px", md: "30px", lg: "30px" }}
                 color={Colors.secondary}
               >
                 ODOMMO DEFENCE & SOLDIERS ACADEMY
